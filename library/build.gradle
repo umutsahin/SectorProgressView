@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 version = "2.0.1"
+group = "com.timqi.sectorprogressview"
 
 android {
     namespace 'com.timqi.sectorprogressview'
@@ -23,5 +25,24 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = group
+                artifactId = 'sectorprogressview'
+                version = project.version
+            }
+        }
     }
 }
